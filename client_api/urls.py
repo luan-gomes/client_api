@@ -15,13 +15,32 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from client_api.api import views
-from rest_framework.urlpatterns import format_suffix_patterns
+from client_api.api.views import ClientsAPIView, ClientDetailsAPIView
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+
+schema_view = get_schema_view(
+   openapi.Info(
+      title="Client API",
+      default_version='v1',
+      description="An API to manager the BHub clients.",
+      terms_of_service="https://www.google.com/policies/terms/",
+      contact=openapi.Contact(email="contact@clientapi.local"),
+      license=openapi.License(name="BSD License"),
+   ),
+   public=True,
+   permission_classes=[permissions.AllowAny],
+)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('clients/', views.client_list, name='clients_list'),
-    path('clients/<int:id>', views.client_details, name='client_details')
+    path('clients/', ClientsAPIView.as_view(), name='clients_list'),
+    path('clients/<int:id>', ClientDetailsAPIView.as_view(), name='client_details'),
+    path(r'swagger(?P<format>\.json|\.yaml)', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
 
-urlpatterns = format_suffix_patterns(urlpatterns)
