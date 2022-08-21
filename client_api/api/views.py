@@ -1,11 +1,13 @@
 from client_api.models import Client, Address
 from client_api.api.serializers import ClientSerializer
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, parser_classes
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.parsers import JSONParser
 
 
 @api_view(['GET', 'POST'])
+@parser_classes([JSONParser])
 def client_list(request, format=None):
     if request.method == 'GET':
         clients = Client.objects.all()
@@ -21,6 +23,7 @@ def client_list(request, format=None):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
+@parser_classes([JSONParser])
 def client_details(request, id, format=None):
     try:
         client = Client.objects.get(pk=id)
