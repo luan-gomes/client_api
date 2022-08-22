@@ -5,4 +5,4 @@ The project is hosted at Heroku. And you can make yours requests using the follo
 
 ## Documentation
 
-The API's documentation is available (here)[https://bhub-client-api.herokuapp.com/swagger/] and it was created using [Swagger](https://swagger.io/).
+The API's documentation is available [here](https://bhub-client-api.herokuapp.com/swagger/) and it was created using [Swagger](https://swagger.io/).
